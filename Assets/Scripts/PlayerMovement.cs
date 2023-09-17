@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public GameObject enemies;
     public JumpOverGoomba jumpOverGoomba;
+    public Canvas inGameCanvas;
+    public Canvas gameOverCanvas;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
         // Set to be 30 FPS
         Application.targetFrameRate = 30;
         marioBody = GetComponent<Rigidbody2D>();
+        ResetGame();
 
     }
 
@@ -82,7 +85,37 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Collided with goomba!");
             Time.timeScale = 0.0f;
+            DisplayGameOverCanvas();
+            HideInGameCanvas();
         }
+    }
+
+    public void DisplayGameOverCanvas()
+    {
+        Debug.Log("Display GameOver Canvas");
+        gameOverCanvas.enabled = true;
+
+        // Note: since we're using GetComponentInChildren, the order of the text (tmp) gameobject matters as it will only get the first TextMeshProUGUI object 
+        gameOverCanvas.GetComponentInChildren<TextMeshProUGUI>().text = scoreText.text;
+    }
+
+    public void HideGameOverCanvas()
+    {
+        Debug.Log("Hide GameOver Canvas");
+        gameOverCanvas.enabled = false;
+    }
+
+    public void DisplayInGameCanvas()
+    {
+        Debug.Log("Display InGame Canvas");
+        inGameCanvas.enabled = true;
+
+    }
+
+    public void HideInGameCanvas()
+    {
+        Debug.Log("Hide InGame Canvas");
+        inGameCanvas.enabled = false;
     }
 
     public void RestartButtonCallback(int input)
@@ -98,6 +131,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // reset position
         //marioBody.transform.position = new Vector3(-5.33f, -4.69f, 0.0f);
+        HideGameOverCanvas();
+        DisplayInGameCanvas();
         marioBody.transform.position = new Vector3(-7.2f, -3.13f, 0.0f);
         // reset sprite direction
         faceRightState = true;
