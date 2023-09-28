@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private bool faceRightState = true;
     public TextMeshProUGUI scoreText;
     public GameObject enemies;
+    public GameObject obstacle;
     public JumpOverGoomba jumpOverGoomba;
     public Canvas inGameCanvas;
     public Canvas gameOverCanvas;
@@ -195,6 +196,11 @@ public class PlayerMovement : MonoBehaviour
         {
             eachChild.transform.localPosition = eachChild.GetComponent<EnemyMovement>().startPosition;
         }
+
+        //foreach (Transform eachChild in obstacle.transform)
+        //{
+        //    eachChild.transform.localPosition = eachChild.GetComponent<EnemyMovement>().startPosition;
+        //}
 
         // reset score
         jumpOverGoomba.score = 0;
