@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     [System.NonSerialized]
     public bool alive = true;
 
+    //public MarioActions marioActions;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +47,43 @@ public class PlayerMovement : MonoBehaviour
         marioBody = GetComponent<Rigidbody2D>();
         ResetGame();
 
+        //marioActions = new MarioActions();
+        //marioActions.gameplay.Enable();
+        //marioActions.gameplay.jump.performed += OnJump;
+        //marioActions.gameplay.jumphold.performed += OnJumpHoldPerformed;
+        //marioActions.gameplay.move.started += OnMove;
+        //marioActions.gameplay.move.canceled += OnMove;
+
     }
+
+    //void OnJump(InputAction.CallbackContext context)
+    //{
+    //    // TODO
+    //    Debug.Log("jump attempted");
+    //}
+
+    //void OnJumpHoldPerformed(InputAction.CallbackContext context)
+    //{
+    //    // TODO
+    //    Debug.Log("jump performed attempted");
+    //}
+
+    //void OnMove(InputAction.CallbackContext context)
+    //{
+    //    if (context.started)
+    //    {
+    //        Debug.Log("move started");
+    //    }
+    //    if (context.canceled)
+    //    {
+    //        Debug.Log("move stopped");
+    //    }
+
+    //    float move = context.ReadValue<float>();
+    //    Debug.Log($"move value: {move}"); // will return null when not pressed
+
+    //    // TODO
+    //}
 
     // Update is called once per frame
     void Update()
