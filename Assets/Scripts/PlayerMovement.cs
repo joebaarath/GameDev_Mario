@@ -31,11 +31,12 @@ public class PlayerMovement : MonoBehaviour
     public float deathImpulse = 15;
     private float previousMoveHorizontal = 0;
 
+    private bool moving = false;
+    private bool jumpedState = false;
+
     // state
     [System.NonSerialized]
     public bool alive = true;
-
-    //public MarioActions marioActions;
 
     // Start is called before the first frame update
     void Start()
@@ -47,47 +48,14 @@ public class PlayerMovement : MonoBehaviour
         marioBody = GetComponent<Rigidbody2D>();
         ResetGame();
 
-        //marioActions = new MarioActions();
-        //marioActions.gameplay.Enable();
-        //marioActions.gameplay.jump.performed += OnJump;
-        //marioActions.gameplay.jumphold.performed += OnJumpHoldPerformed;
-        //marioActions.gameplay.move.started += OnMove;
-        //marioActions.gameplay.move.canceled += OnMove;
-
     }
 
-    //void OnJump(InputAction.CallbackContext context)
-    //{
-    //    // TODO
-    //    Debug.Log("jump attempted");
-    //}
-
-    //void OnJumpHoldPerformed(InputAction.CallbackContext context)
-    //{
-    //    // TODO
-    //    Debug.Log("jump performed attempted");
-    //}
-
-    //void OnMove(InputAction.CallbackContext context)
-    //{
-    //    if (context.started)
-    //    {
-    //        Debug.Log("move started");
-    //    }
-    //    if (context.canceled)
-    //    {
-    //        Debug.Log("move stopped");
-    //    }
-
-    //    float move = context.ReadValue<float>();
-    //    Debug.Log($"move value: {move}"); // will return null when not pressed
-
-    //    // TODO
-    //}
 
     // Update is called once per frame
     void Update()
     {
+        marioAnimator.SetFloat("xSpeed", Mathf.Abs(marioBody.velocity.x));
+
         // toggle state
         if (alive && Input.GetKeyDown("a") && faceRightState)
         {
@@ -108,16 +76,28 @@ public class PlayerMovement : MonoBehaviour
         marioAnimator.SetFloat("xSpeed", Mathf.Abs(marioBody.velocity.x));
     }
 
+    void FlipMarioSprite(int value)
+    {
+        if (alive && value == -1 && faceRightState)
+        {
+            faceRightState = false;
+            marioSprite.flipX = true;
+            if (marioBody.velocity.x > 0.05f)
+                marioAnimator.SetTrigger("onSkid");
+        }
+
+        else if (alive && value == 1 && !faceRightState)
+        {
+            faceRightState = true;
+            marioSprite.flipX = false;
+            if (marioBody.velocity.x < -0.05f)
+                marioAnimator.SetTrigger("onSkid");
+        }
+    }
+
     int collisionLayerMask = (1 << 3) | (1 << 6) | (1 << 7);
     void OnCollisionEnter2D(Collision2D col)
     {
-
-        //if ((col.gameObject.CompareTag("Ground") || col.gameObject.CompareTag("Enemies") || col.gameObject.CompareTag("Obstacles")) && !onGroundState)
-        //{
-        //    onGroundState = true;
-        //    // update animator state
-        //    marioAnimator.SetBool("onGround", onGroundState);
-        //}
 
         if (((collisionLayerMask & (1 << col.transform.gameObject.layer)) > 0) & !onGroundState)
         {
@@ -130,41 +110,95 @@ public class PlayerMovement : MonoBehaviour
     // FixedUpdate is called 50 times a second
     void FixedUpdate()
     {
-        if (alive)
+
+        if (alive && moving)
         {
-            float moveHorizontal = Input.GetAxisRaw("Horizontal");
-            // other code
+            Move(faceRightState == true ? 1 : -1);
+        }
 
-            if (Mathf.Abs(moveHorizontal) > 0)
-            {
-                Vector2 movement = new Vector2(moveHorizontal, 0);
-                // check if it doesn't go beyond maxSpeed
-                if (marioBody.velocity.magnitude < maxSpeed)
-                    marioBody.AddForce(movement * speed);
-            }
+        //if (alive)
+        //{
+        //    float moveHorizontal = Input.GetAxisRaw("Horizontal");
+        //    // other code
 
-            // stop
-            // when Input.GetKeyUp("a") or equivalent to Input.GetKeyUp("d")
-            if ((previousMoveHorizontal == -1 && moveHorizontal == 0) || (previousMoveHorizontal == 1 && moveHorizontal == 0))
-            {
-                // stop
-                marioBody.velocity = Vector2.zero;
-            }
+        //    if (Mathf.Abs(moveHorizontal) > 0)
+        //    {
+        //        Vector2 movement = new Vector2(moveHorizontal, 0);
+        //        // check if it doesn't go beyond maxSpeed
+        //        if (marioBody.velocity.magnitude < maxSpeed)
+        //            marioBody.AddForce(movement * speed);
+        //    }
 
-            // Update previousMoveHorizontal for the next frame
-            previousMoveHorizontal = moveHorizontal;
+        //    // stop
+        //    // when Input.GetKeyUp("a") or equivalent to Input.GetKeyUp("d")
+        //    if ((previousMoveHorizontal == -1 && moveHorizontal == 0) || (previousMoveHorizontal == 1 && moveHorizontal == 0))
+        //    {
+        //        // stop
+        //        marioBody.velocity = Vector2.zero;
+        //    }
 
-            if ((Input.GetKeyDown("w") || Input.GetKeyDown("space")) && onGroundState)
-            {
-                marioBody.AddForce(Vector2.up * upSpeed, ForceMode2D.Impulse);
-                onGroundState = false;
-                // update animator state
-                marioAnimator.SetBool("onGround", onGroundState);
-            }
+        //    // Update previousMoveHorizontal for the next frame
+        //    previousMoveHorizontal = moveHorizontal;
+
+        //    if ((Input.GetKeyDown("w") || Input.GetKeyDown("space")) && onGroundState)
+        //    {
+        //        marioBody.AddForce(Vector2.up * upSpeed, ForceMode2D.Impulse);
+        //        onGroundState = false;
+        //        // update animator state
+        //        marioAnimator.SetBool("onGround", onGroundState);
+        //    }
+
+        //}
+
+    }
+
+    void Move(int value)
+    {
+
+        Vector2 movement = new Vector2(value, 0);
+        // check if it doesn't go beyond maxSpeed
+        if (marioBody.velocity.magnitude < maxSpeed)
+            marioBody.AddForce(movement * speed);
+    }
+    public void Jump()
+    {
+        if (alive && onGroundState)
+        {
+            // jump
+            marioBody.AddForce(Vector2.up * upSpeed, ForceMode2D.Impulse);
+            onGroundState = false;
+            jumpedState = true;
+            // update animator state
+            marioAnimator.SetBool("onGround", onGroundState);
 
         }
-        
     }
+
+    public void JumpHold()
+    {
+        if (alive && jumpedState)
+        {
+            // jump higher
+            marioBody.AddForce(Vector2.up * upSpeed * 30, ForceMode2D.Force);
+            jumpedState = false;
+        }
+    }
+
+    public void MoveCheck(int value)
+    {
+        if (value == 0)
+        {
+            moving = false;
+        }
+        else
+        {
+            FlipMarioSprite(value);
+            moving = true;
+            Move(value);
+        }
+    }
+
+
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -233,7 +267,7 @@ public class PlayerMovement : MonoBehaviour
         // reset Goomba
         foreach (Transform eachChild in enemies.transform)
         {
-            eachChild.transform.localPosition = eachChild.GetComponent<EnemyMovement>().startPosition;
+            eachChild.localPosition = eachChild.GetComponent<EnemyMovement>().startPosition;
         }
 
         //foreach (Transform eachChild in obstacle.transform)

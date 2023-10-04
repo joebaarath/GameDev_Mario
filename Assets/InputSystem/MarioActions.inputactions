@@ -31,6 +31,24 @@
                     "processors": "",
                     "interactions": "Hold(duration=0.3)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "click",
+                    "type": "Button",
+                    "id": "1cf7cd4d-3b73-49df-bd4f-04f06089e320",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "point",
+                    "type": "Value",
+                    "id": "1d6ff47f-5fe5-47b4-b1f9-bf08cac1a162",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -106,7 +124,7 @@
                     "path": "<Keyboard>/space",
                     "interactions": "Press",
                     "processors": "",
-                    "groups": "keyboard",
+                    "groups": "MarioActions",
                     "action": "jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -117,7 +135,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "Press",
                     "processors": "",
-                    "groups": "keyboard",
+                    "groups": "MarioActions",
                     "action": "jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -128,7 +146,7 @@
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "keyboard",
+                    "groups": "MarioActions",
                     "action": "jumpHold",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -139,21 +157,70 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "keyboard",
+                    "groups": "MarioActions",
                     "action": "jumpHold",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5d76964b-a03f-4061-8a2e-42a7175e6ed8",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "MarioActions",
+                    "action": "click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "b11bf51e-b5e1-48af-94b3-90f5fdc86de0",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "point",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "b2f3ab05-db5d-4145-8225-3829dd9b0b24",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "MarioActions",
+                    "action": "point",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "5dd41d90-a8c3-4909-9db2-0f9e6dd8bae4",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "MarioActions",
+                    "action": "point",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
     ],
     "controlSchemes": [
         {
-            "name": "keyboard",
-            "bindingGroup": "keyboard",
+            "name": "MarioActions",
+            "bindingGroup": "MarioActions",
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
                     "isOptional": false,
                     "isOR": false
                 }
