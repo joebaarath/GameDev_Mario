@@ -93,4 +93,25 @@ public class OneWayBounceBox : MonoBehaviour
         // play jump sound
         coinAudioSource.PlayOneShot(coinAudioSource.clip);
     }
+
+    public void ResetBox()
+    {
+
+
+        isActiveBox = true;
+
+        // Reset the spring joint
+        springJoint.dampingRatio = 0.3f;
+        springJoint.frequency = 10;
+
+        // Reset the animator
+        qboxAnimator.ResetTrigger("qbox_used");
+        coinAnimator.ResetTrigger("coin_bounce_trigger");
+
+        // Assuming you have a default animation state in your animator, play it to Instantaneous Reset the animation
+        qboxAnimator.Play("qbox-blinking", -1, 0f);
+        coinAnimator.Play("coin-idle", -1, 0f);
+
+    }
+
 }

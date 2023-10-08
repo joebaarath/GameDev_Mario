@@ -12,11 +12,15 @@ public class GameManager : MonoBehaviour
     public UnityEvent gameOver;
 
     private int score = 0;
+    private OneWayBounceBox[] allBoxes;  // Array to store all OneWayBounceBox instances
 
     void Start()
     {
         gameStart.Invoke();
         Time.timeScale = 1.0f;
+
+        // Get all instances of OneWayBounceBox in the scene
+        allBoxes = FindObjectsOfType<OneWayBounceBox>();
     }
 
     // Update is called once per frame
@@ -32,6 +36,13 @@ public class GameManager : MonoBehaviour
         SetScore(score);
         gameRestart.Invoke();
         Time.timeScale = 1.0f;
+
+        // Reset all qboxes and coin positions
+        foreach (var box in allBoxes)
+        {
+            box.ResetBox();
+        }
+
     }
 
     public void IncreaseScore(int increment)
