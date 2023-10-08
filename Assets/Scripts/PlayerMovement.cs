@@ -16,9 +16,6 @@ public class PlayerMovement : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public GameObject enemies;
     public GameObject obstacle;
-    public JumpOverGoomba jumpOverGoomba;
-    public Canvas inGameCanvas;
-    public Canvas gameOverCanvas;
 
     public Animator marioAnimator;
 
@@ -38,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
     [System.NonSerialized]
     public bool alive = true;
 
+    public GameManager gameManager;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
         // Set to be 30 FPS
         Application.targetFrameRate = 30;
         marioBody = GetComponent<Rigidbody2D>();
-        ResetGame();
+        //ResetGame();
 
     }
 
@@ -116,40 +116,6 @@ public class PlayerMovement : MonoBehaviour
             Move(faceRightState == true ? 1 : -1);
         }
 
-        //if (alive)
-        //{
-        //    float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        //    // other code
-
-        //    if (Mathf.Abs(moveHorizontal) > 0)
-        //    {
-        //        Vector2 movement = new Vector2(moveHorizontal, 0);
-        //        // check if it doesn't go beyond maxSpeed
-        //        if (marioBody.velocity.magnitude < maxSpeed)
-        //            marioBody.AddForce(movement * speed);
-        //    }
-
-        //    // stop
-        //    // when Input.GetKeyUp("a") or equivalent to Input.GetKeyUp("d")
-        //    if ((previousMoveHorizontal == -1 && moveHorizontal == 0) || (previousMoveHorizontal == 1 && moveHorizontal == 0))
-        //    {
-        //        // stop
-        //        marioBody.velocity = Vector2.zero;
-        //    }
-
-        //    // Update previousMoveHorizontal for the next frame
-        //    previousMoveHorizontal = moveHorizontal;
-
-        //    if ((Input.GetKeyDown("w") || Input.GetKeyDown("space")) && onGroundState)
-        //    {
-        //        marioBody.AddForce(Vector2.up * upSpeed, ForceMode2D.Impulse);
-        //        onGroundState = false;
-        //        // update animator state
-        //        marioAnimator.SetBool("onGround", onGroundState);
-        //    }
-
-        //}
-
     }
 
     void Move(int value)
@@ -198,6 +164,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    IEnumerator WaitAndDie()
+    {
+        yield return new WaitForSeconds(1f);
+        gameManager.GameOver();
+
+
+    }
 
 
     void OnTriggerEnter2D(Collider2D other)
@@ -211,37 +184,40 @@ public class PlayerMovement : MonoBehaviour
             marioAnimator.Play("mario-die");
             marioAudio.PlayOneShot(marioDeath);
             alive = false;
+            PlayDeathImpulse();
+            StartCoroutine(WaitAndDie());
+
         }
     }
 
-    public void DisplayGameOverCanvas()
-    {
-        Debug.Log("Display GameOver Canvas");
-        gameOverCanvas.enabled = true;
+    //public void DisplayGameOverCanvas()
+    //{
+    //    Debug.Log("Display GameOver Canvas");
+    //    gameOverCanvas.enabled = true;
 
-        // Note: since we're using GetComponentInChildren, the order of the text (tmp) gameobject matters as it will only get the first TextMeshProUGUI object 
-        gameOverCanvas.GetComponentInChildren<TextMeshProUGUI>().text = scoreText.text;
+    //    // Note: since we're using GetComponentInChildren, the order of the text (tmp) gameobject matters as it will only get the first TextMeshProUGUI object 
+    //    gameOverCanvas.GetComponentInChildren<TextMeshProUGUI>().text = scoreText.text;
 
-    }
+    //}
 
-    public void HideGameOverCanvas()
-    {
-        Debug.Log("Hide GameOver Canvas");
-        gameOverCanvas.enabled = false;
-    }
+    //public void HideGameOverCanvas()
+    //{
+    //    Debug.Log("Hide GameOver Canvas");
+    //    gameOverCanvas.enabled = false;
+    //}
 
-    public void DisplayInGameCanvas()
-    {
-        Debug.Log("Display InGame Canvas");
-        inGameCanvas.enabled = true;
+    //public void DisplayInGameCanvas()
+    //{
+    //    Debug.Log("Display InGame Canvas");
+    //    inGameCanvas.enabled = true;
 
-    }
+    //}
 
-    public void HideInGameCanvas()
-    {
-        Debug.Log("Hide InGame Canvas");
-        inGameCanvas.enabled = false;
-    }
+    //public void HideInGameCanvas()
+    //{
+    //    Debug.Log("Hide InGame Canvas");
+    //    inGameCanvas.enabled = false;
+    //}
 
     public void RestartButtonCallback(int input)
     {
@@ -256,27 +232,22 @@ public class PlayerMovement : MonoBehaviour
     {
         // reset position
         //marioBody.transform.position = new Vector3(-5.33f, -4.69f, 0.0f);
-        HideGameOverCanvas();
-        DisplayInGameCanvas();
+        //HideGameOverCanvas();
+        //DisplayInGameCanvas();
         marioBody.transform.position = new Vector3(-7.2f, -4.45f, 0.0f);
         // reset sprite direction
         faceRightState = true;
         marioSprite.flipX = false;
         // reset score
-        scoreText.text = "Score: 0";
+        //scoreText.text = "Score: 0";
         // reset Goomba
         foreach (Transform eachChild in enemies.transform)
         {
             eachChild.localPosition = eachChild.GetComponent<EnemyMovement>().startPosition;
         }
 
-        //foreach (Transform eachChild in obstacle.transform)
-        //{
-        //    eachChild.transform.localPosition = eachChild.GetComponent<EnemyMovement>().startPosition;
-        //}
-
         // reset score
-        jumpOverGoomba.score = 0;
+        gameManager.GameOver();
 
         // reset animation
         marioAnimator.SetTrigger("gameRestart");
@@ -285,6 +256,22 @@ public class PlayerMovement : MonoBehaviour
         // reset camera position
         gameCamera.position = new Vector3(0, 0, -10);
 
+    }
+
+    public void GameRestart()
+    {
+        // reset position
+        marioBody.transform.position = new Vector3(-5.33f, -4.69f, 0.0f);
+        // reset sprite direction
+        faceRightState = true;
+        marioSprite.flipX = false;
+
+        // reset animation
+        marioAnimator.SetTrigger("gameRestart");
+        alive = true;
+
+        // reset camera position
+        gameCamera.position = new Vector3(0, 0, -10);
     }
 
     void PlayJumpSound()
@@ -296,18 +283,6 @@ public class PlayerMovement : MonoBehaviour
     void PlayDeathImpulse()
     {
         marioBody.AddForce(Vector2.up * deathImpulse, ForceMode2D.Impulse);
-    }
-
-    void GameOverScene()
-    {
-        // stop time
-        Time.timeScale = 0.0f;
-
-        // set gameover scene
-        //gameManager.GameOver(); // replace this with whichever way you triggered the game over screen for Checkoff 1
-        DisplayGameOverCanvas();
-        HideInGameCanvas();
-
     }
 
 
