@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     // for audio
     public AudioSource marioAudio;
 
-    public AudioClip marioDeath;
+    public AudioSource marioDeathAudio;
     public float deathImpulse = 15;
     private float previousMoveHorizontal = 0;
 
@@ -182,7 +182,8 @@ public class PlayerMovement : MonoBehaviour
 
             // play death animation
             marioAnimator.Play("mario-die");
-            marioAudio.PlayOneShot(marioDeath);
+            //marioAudio.PlayOneShot(marioDeath);
+            marioDeathAudio.PlayOneShot(marioDeathAudio.clip);
             alive = false;
             PlayDeathImpulse();
             StartCoroutine(WaitAndDie());
