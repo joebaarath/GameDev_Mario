@@ -10,9 +10,13 @@ public class GameManager : MonoBehaviour
     public UnityEvent gameRestart;
     public UnityEvent<int> scoreChange;
     public UnityEvent gameOver;
+    public UnityEvent marioValidStomp;
 
     private int score = 0;
     private OneWayBounceBox[] allBoxes;  // Array to store all OneWayBounceBox instances
+
+    public delegate void MarioStompDelegate();
+    public MarioStompDelegate OnMarioValidStompNotifier;  // Any external class can invoke this.
 
     void Start()
     {
@@ -21,6 +25,7 @@ public class GameManager : MonoBehaviour
 
         // Get all instances of OneWayBounceBox in the scene
         allBoxes = FindObjectsOfType<OneWayBounceBox>();
+
     }
 
     // Update is called once per frame
@@ -43,12 +48,22 @@ public class GameManager : MonoBehaviour
             box.ResetBox();
         }
 
+
     }
 
     public void IncreaseScore(int increment)
     {
         score += increment;
         SetScore(score);
+        // use delegates to access playmermovements
+    }
+
+    public void ValidMarioStompChange()
+    {
+        if (OnMarioValidStompNotifier != null)
+        {
+            OnMarioValidStompNotifier(); // will trigger PlayerMovement to not allow mario to die 
+        }
     }
 
     public void SetScore(int score)

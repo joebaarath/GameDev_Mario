@@ -14,10 +14,12 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody2D enemyBody;
 
     public Vector3 startPosition = new Vector3(0.0f, 0.0f, 0.0f);
+    public bool isStopGoomba = false;
 
 
     void Start()
     {
+        isStopGoomba = false;
         enemyBody = GetComponent<Rigidbody2D>();
         // get the starting position
         originalX = transform.position.x;
@@ -29,8 +31,17 @@ public class EnemyMovement : MonoBehaviour
     }
     void Movegoomba()
     {
-        enemyBody.MovePosition(enemyBody.position + velocity * Time.fixedDeltaTime);
+        if(!isStopGoomba)
+        {
+            enemyBody.MovePosition(enemyBody.position + velocity * Time.fixedDeltaTime);
+        }
     }
+
+    public void StopGoomba()
+    {
+        isStopGoomba = true;
+    }
+
 
     void Update()
     {
@@ -57,5 +68,16 @@ public class EnemyMovement : MonoBehaviour
         originalX = transform.position.x;
         moveRight = -1;
         ComputeVelocity();
+    }
+
+    public void DisableGoomba()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void EnableGoomba()
+    {
+        gameObject.SetActive(true);
+        Start();
     }
 }

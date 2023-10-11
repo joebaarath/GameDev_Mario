@@ -37,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
 
     public GameManager gameManager;
 
+    bool isMarioStomping = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +50,14 @@ public class PlayerMovement : MonoBehaviour
         marioBody = GetComponent<Rigidbody2D>();
         //ResetGame();
 
+        // Subscribe to see if mario has valid JumpOverGoomba conditions
+        gameManager.OnMarioValidStompNotifier += setMarioStompingTrue;
+
+    }
+
+    private void setMarioStompingTrue()
+    {
+        isMarioStomping = true;
     }
 
 
@@ -104,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
             onGroundState = true;
             // update animator state
             marioAnimator.SetBool("onGround", onGroundState);
+            isMarioStomping = false;
         }
     }
 
@@ -178,15 +189,21 @@ public class PlayerMovement : MonoBehaviour
 
         if (other.gameObject.CompareTag("Enemies") && alive)
         {
-            Debug.Log("Collided with goomba!");
-
-            // play death animation
-            marioAnimator.Play("mario-die");
-            //marioAudio.PlayOneShot(marioDeath);
-            marioDeathAudio.PlayOneShot(marioDeathAudio.clip);
-            alive = false;
-            PlayDeathImpulse();
-            StartCoroutine(WaitAndDie());
+            if(!isMarioStomping && other.gameObject.GetComponent<EnemyMovement>().isStopGoomba != true)
+            {
+                Debug.Log("Collided with goomba!");
+                // play death animation
+                marioAnimator.Play("mario-die");
+                //marioAudio.PlayOneShot(marioDeath);
+                marioDeathAudio.PlayOneShot(marioDeathAudio.clip);
+                alive = false;
+                PlayDeathImpulse();
+                StartCoroutine(WaitAndDie());
+            }
+            else
+            {
+                Debug.Log("Collided with goomba BUT IS STOMPING!");
+            }
 
         }
     }

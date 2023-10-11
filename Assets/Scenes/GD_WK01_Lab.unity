@@ -497,9 +497,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1147417592}
     - target: {fileID: 4478366432900222771, guid: 964acbccd24bda9499aa5a0207b350b8, type: 3}
+      propertyPath: useInt.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4478366432900222771, guid: 964acbccd24bda9499aa5a0207b350b8, type: 3}
+      propertyPath: useInt.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4478366432900222771, guid: 964acbccd24bda9499aa5a0207b350b8, type: 3}
       propertyPath: useInt.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1515888495}
+    - target: {fileID: 4478366432900222771, guid: 964acbccd24bda9499aa5a0207b350b8, type: 3}
+      propertyPath: useInt.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1515888495}
+    - target: {fileID: 4478366432900222771, guid: 964acbccd24bda9499aa5a0207b350b8, type: 3}
+      propertyPath: useInt.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4478366432900222771, guid: 964acbccd24bda9499aa5a0207b350b8, type: 3}
+      propertyPath: useInt.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: IncreaseScore
+      objectReference: {fileID: 0}
+    - target: {fileID: 4478366432900222771, guid: 964acbccd24bda9499aa5a0207b350b8, type: 3}
+      propertyPath: useInt.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4478366432900222771, guid: 964acbccd24bda9499aa5a0207b350b8, type: 3}
+      propertyPath: useInt.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4478366432900222771, guid: 964acbccd24bda9499aa5a0207b350b8, type: 3}
+      propertyPath: useInt.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1215,6 +1247,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1439238027}
+  - {fileID: 1803109983}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &585028122
@@ -2680,8 +2713,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyLocation: {fileID: 585028121}
-  boxSize: {x: 0.5, y: 1.5, z: 1}
-  maxDistance: 0.7
+  boxSize: {x: 0.92, y: 0.61, z: 1}
+  maxDistance: 0.8
   layerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -3776,6 +3809,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  marioValidStomp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1548923659
 GameObject:
   m_ObjectHideFlags: 0
@@ -4065,6 +4101,68 @@ EdgeCollider2D:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5436570074614516692, guid: cfb5d5418ba92cd438e94aa7f4f5a269, type: 3}
   m_PrefabInstance: {fileID: 4116031454291916415}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1803109982
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585028121}
+    m_Modifications:
+    - target: {fileID: 2339840579657188342, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+      propertyPath: m_Name
+      value: Goomba (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+--- !u!4 &1803109983 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
+  m_PrefabInstance: {fileID: 1803109982}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1847422399
 GameObject:
@@ -4806,10 +4904,6 @@ PrefabInstance:
     - target: {fileID: 2339840579657188342, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
       propertyPath: m_Name
       value: Goomba
-      objectReference: {fileID: 0}
-    - target: {fileID: 2339840579657188342, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
-      propertyPath: m_TagString
-      value: Enemies
       objectReference: {fileID: 0}
     - target: {fileID: 6829560055560101035, guid: ef76eb3a0f3322c4dae1d75b30dbc554, type: 3}
       propertyPath: m_LocalPosition.x

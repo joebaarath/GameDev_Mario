@@ -9,6 +9,9 @@ public class JumpOverGoomba : MonoBehaviour
     //public TextMeshProUGUI scoreText;
     private bool onGroundState;
 
+
+
+
     //[System.NonSerialized]
     //public int score = 0; // we don't want this to show up in the inspector
 
@@ -17,10 +20,20 @@ public class JumpOverGoomba : MonoBehaviour
     public float maxDistance;
     public LayerMask layerMask;
     GameManager gameManager;
+
+    //Vector3 enemyTransformFromVector = new Vector3();
+    //Vector3 enemyTransformToVector = new Vector3();
+
+
+
+    BoxCollider2D boxCollider;
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
+        
+
+
     }
 
     // Update is called once per frame
@@ -39,15 +52,56 @@ public class JumpOverGoomba : MonoBehaviour
             countScoreState = true;
         }
 
-        //// when jumping, and Goomba is near Mario and we haven't registered our score
-        //if (!onGroundState && countScoreState)
-        //{
-        //    if (Mathf.Abs(transform.position.x - enemyLocation.position.x) < 0.5f)
-        //    {
-        //        countScoreState = false;
-        //        gameManager.IncreaseScore(1); 
-        //    }
-        //}
+        // when jumping, and Goomba is near Mario and we haven't registered our score
+        if (!onGroundState && countScoreState)
+        {
+            boxCollider = GetComponent<BoxCollider2D>();
+            for (int i = 0; i < enemyLocation.childCount; i++)
+            {
+                Transform enemyTransform = enemyLocation.GetChild(i);
+                if (Mathf.Abs(transform.position.x - enemyTransform.position.x) < 1.5f)
+                {
+                    // check if mario is falling and check if marios bounding box lowest y value is above (enemylocation.y - 0.5f)
+                    if (boxCollider == null)
+                    {
+                        Debug.LogError("The GameObject does not have a BoxCollider2D component!");
+                        return;
+                    }
+
+                    float boxColliderBottomY = transform.position.y + boxCollider.offset.y - boxCollider.size.y / 2;
+                    BoxCollider2D enemyBoxCollider = enemyTransform.GetComponent<BoxCollider2D>();
+                    float enemyTopY = enemyTransform.position.y + enemyBoxCollider.offset.y + enemyBoxCollider.size.y / 2;
+
+                    //enemyTransformFromVector = new Vector3(enemyTransform.position.x, (enemyTransform.position.y + enemyBoxCollider.offset.y + enemyBoxCollider.size.y - 0.5f), enemyTransform.position.z);
+                    //enemyTransformToVector = new Vector3(enemyTransform.position.x, (enemyTransform.position.y + enemyBoxCollider.offset.y + enemyBoxCollider.size.y + 5f), enemyTransform.position.z);
+
+
+                    if (Mathf.Abs(boxColliderBottomY - enemyTopY) < 0.5f)
+                    {
+                        Animator enemyAnimator = enemyTransform.GetComponent<Animator>();
+                        countScoreState = false;
+
+                        //USE ANIMATION + EVENT IN ANIMATION TO GIVE SCORE
+                        // play Goomba Death animation
+                        enemyTransform.GetComponent<EnemyMovement>().StopGoomba();
+                        enemyAnimator.SetTrigger("enemyIsDead");
+                        gameManager.IncreaseScore(1);
+
+                        //marioAudio.PlayOneShot(marioDeath);
+                        //marioDeathAudio.PlayOneShot(marioDeathAudio.clip);
+
+                        // HOW TO USE MUSIC?
+                        gameManager.ValidMarioStompChange();
+                        return;
+                    }
+
+                }
+            }
+
+            //enemyTransformFromVector = new Vector3();
+            //enemyTransformToVector = new Vector3();
+
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -74,7 +128,7 @@ public class JumpOverGoomba : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Collided with goomba!");
+            //Debug.Log("Collided with goomba!");
         }
     }
 
@@ -84,6 +138,7 @@ public class JumpOverGoomba : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
+        //Gizmos.DrawLine(enemyTransformFromVector, enemyTransformToVector);
     }
 
 }

@@ -20,7 +20,11 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            child.GetComponent<EnemyMovement>().GameRestart();
+            EnemyMovement childEnemyMovement = child.GetComponent<EnemyMovement>();
+            childEnemyMovement.EnableGoomba();
+            childEnemyMovement.GameRestart();
+
+            // todo: consider reseting the enemyisdead trigger
         }
     }
 }
