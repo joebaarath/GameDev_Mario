@@ -311,13 +311,14 @@ AudioMixerController:
   - guids:
     - ffc7ad6c9e1beac45ad0fc1d5ab3e91d
     - 8ac3ef3a38b7ecc498b587b39c46dd12
+    - 5d7a589af08b1ce49a5e88a3ac1a5e93
+    - 67b821edb19791441961534c64df1133
     - 701d7151e2d6c9b4298ccfb145e25fca
     - af4fb03918e70994290a3d4ac753f898
     - e6043db42ca7cd84180045d45e9770b6
     - 533c51c1d2c6a6d489bc2f6908ea71c3
     - ac667d7ba385908479df049faefbe154
     - f9573a90aeee0b1429136a35bd7b55b4
-    - 5d7a589af08b1ce49a5e88a3ac1a5e93
     name: All
   - guids:
     - ffc7ad6c9e1beac45ad0fc1d5ab3e91d
@@ -327,7 +328,7 @@ AudioMixerController:
     - af4fb03918e70994290a3d4ac753f898
     - 67b821edb19791441961534c64df1133
     name: SFX Only
-  m_CurrentViewIndex: 1
+  m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: -354150624037280500}
 --- !u!243 &24300002
 AudioMixerGroupController:
