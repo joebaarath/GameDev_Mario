@@ -20,6 +20,7 @@ public class JumpOverGoomba : MonoBehaviour
     public float maxDistance;
     public LayerMask layerMask;
     GameManager gameManager;
+    AudioSource enemiesHolderAudio;
 
     //Vector3 enemyTransformFromVector = new Vector3();
     //Vector3 enemyTransformToVector = new Vector3();
@@ -31,7 +32,9 @@ public class JumpOverGoomba : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
-        
+        enemiesHolderAudio = enemyLocation.GetComponent<AudioSource>();
+
+
 
 
     }
@@ -87,10 +90,7 @@ public class JumpOverGoomba : MonoBehaviour
                         enemyAnimator.SetTrigger("enemyIsDead");
                         gameManager.IncreaseScore(1);
 
-                        //marioAudio.PlayOneShot(marioDeath);
-                        //marioDeathAudio.PlayOneShot(marioDeathAudio.clip);
-
-                        // HOW TO USE MUSIC?
+                        enemiesHolderAudio.PlayOneShot(enemiesHolderAudio.clip);
                         gameManager.ValidMarioStompChange();
                         return;
                     }

@@ -11,6 +11,7 @@ AudioMixerGroupController:
   m_GroupID: 8ac3ef3a38b7ecc498b587b39c46dd12
   m_Children:
   - {fileID: 5245796441423668685}
+  - {fileID: 4543876859553497323}
   - {fileID: 1973452388377446101}
   - {fileID: 8334342711077414443}
   m_Volume: 91efd19063e875f498a6effbc6f4c2de
@@ -145,6 +146,20 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!244 &-3224583053469643665
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 1bd67f7c453e4a44fb830b082c88f9fa
+  m_EffectName: Attenuation
+  m_MixLevel: 2ebadccfbdb117e44876c1fc853bf43b
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!243 &-3143198553205367405
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -215,6 +230,48 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!244 &-1465619910022304104
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 90b0b49ef23868e488f3083b94c68dc8
+  m_EffectName: SFX Reverb
+  m_MixLevel: 3b5dceb23453ea748ae2006ce057fe3f
+  m_Parameters:
+  - m_ParameterName: Dry Level
+    m_GUID: d5a6387492d855d4e829b4a745001335
+  - m_ParameterName: Room
+    m_GUID: 319004e65f48ab24ebd300303b772e63
+  - m_ParameterName: Room HF
+    m_GUID: 0a95865864c4f694c9bc3ae5e2cfd24e
+  - m_ParameterName: Decay Time
+    m_GUID: dbda969c337603647a80281d4549755a
+  - m_ParameterName: Decay HF Ratio
+    m_GUID: e98c34e9fbe4bc8499af6ffe43105686
+  - m_ParameterName: Reflections
+    m_GUID: 6873b6d74e80af3499a7835eb75975af
+  - m_ParameterName: Reflect Delay
+    m_GUID: a07d4f0e9141c4c4bad94685fe93634b
+  - m_ParameterName: Reverb
+    m_GUID: b2bf134edc07e28478520cf45c05e3c4
+  - m_ParameterName: Reverb Delay
+    m_GUID: 02887c958d5dcdf44bae45d30234c064
+  - m_ParameterName: Diffusion
+    m_GUID: c164126968ff51142b41e2d25d57cf2b
+  - m_ParameterName: Density
+    m_GUID: baffee6b1c8981045ab00babd48104df
+  - m_ParameterName: HF Reference
+    m_GUID: 3bec3e6be1c724b42bd94d1cd4fc3892
+  - m_ParameterName: Room LF
+    m_GUID: 44eb2d69100861642b9ebeb054f60a32
+  - m_ParameterName: LF Reference
+    m_GUID: 24b32755695feec4fbe41e96114bf166
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!245 &-354150624037280500
 AudioMixerSnapshotController:
   m_ObjectHideFlags: 0
@@ -227,6 +284,7 @@ AudioMixerSnapshotController:
   m_FloatValues:
     6b376cb07ef364a468c3c0124ae57656: 2.0906024
     8bdaa8e04801c9848a25452013f741bf: 0
+    528f51619169ace468757cd2113ee4d3: 1.505
     f0879185a3dca8a42a09ddd596841aed: 5.8
     dabec897bf161bf43b57c72168669ab1: -65
     3998c7b759fa7774eb65ddf7aa106083: -4.560346
@@ -267,8 +325,9 @@ AudioMixerController:
     - 5d7a589af08b1ce49a5e88a3ac1a5e93
     - 701d7151e2d6c9b4298ccfb145e25fca
     - af4fb03918e70994290a3d4ac753f898
+    - 67b821edb19791441961534c64df1133
     name: SFX Only
-  m_CurrentViewIndex: 0
+  m_CurrentViewIndex: 1
   m_TargetSnapshot: {fileID: -354150624037280500}
 --- !u!243 &24300002
 AudioMixerGroupController:
@@ -461,6 +520,26 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!243 &4543876859553497323
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GoombaDies
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 67b821edb19791441961534c64df1133
+  m_Children: []
+  m_Volume: e5b3216cd4407d443887d41c8e70fb43
+  m_Pitch: 2e4c3d7bb5bf0ec45a11a6a56ea44ca8
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -3224583053469643665}
+  - {fileID: -1465619910022304104}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!244 &4973605149094599100
 AudioMixerEffectController:
   m_ObjectHideFlags: 3

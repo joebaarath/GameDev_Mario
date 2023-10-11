@@ -189,13 +189,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (other.gameObject.CompareTag("Enemies") && alive)
         {
-            if(!isMarioStomping && other.gameObject.GetComponent<EnemyMovement>().isStopGoomba != true)
+            if(!isMarioStomping && !other.gameObject.GetComponent<EnemyMovement>().isEnemyDead)
             {
+                marioDeathAudio.PlayOneShot(marioDeathAudio.clip);
                 Debug.Log("Collided with goomba!");
                 // play death animation
                 marioAnimator.Play("mario-die");
                 //marioAudio.PlayOneShot(marioDeath);
-                marioDeathAudio.PlayOneShot(marioDeathAudio.clip);
                 alive = false;
                 PlayDeathImpulse();
                 StartCoroutine(WaitAndDie());

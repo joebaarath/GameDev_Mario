@@ -14,12 +14,12 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody2D enemyBody;
 
     public Vector3 startPosition = new Vector3(0.0f, 0.0f, 0.0f);
-    public bool isStopGoomba = false;
+    public bool isEnemyDead  = false;
 
 
     void Start()
     {
-        isStopGoomba = false;
+        isEnemyDead  = false;
         enemyBody = GetComponent<Rigidbody2D>();
         // get the starting position
         originalX = transform.position.x;
@@ -31,7 +31,7 @@ public class EnemyMovement : MonoBehaviour
     }
     void Movegoomba()
     {
-        if(!isStopGoomba)
+        if(!isEnemyDead )
         {
             enemyBody.MovePosition(enemyBody.position + velocity * Time.fixedDeltaTime);
         }
@@ -39,7 +39,7 @@ public class EnemyMovement : MonoBehaviour
 
     public void StopGoomba()
     {
-        isStopGoomba = true;
+        isEnemyDead  = true;
     }
 
 
@@ -70,7 +70,7 @@ public class EnemyMovement : MonoBehaviour
         ComputeVelocity();
     }
 
-    public void DisableGoomba()
+    public void KillGoomba()
     {
         gameObject.SetActive(false);
     }

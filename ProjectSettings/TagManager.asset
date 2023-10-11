@@ -9,6 +9,7 @@ TagManager:
   - Obstacles
   - Enemies
   - Manager
+  - EnemiesHolder
   layers:
   - Default
   - TransparentFX
