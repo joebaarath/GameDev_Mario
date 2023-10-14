@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Singleton<PlayerMovement>
 {
     public float speed = 10;
     public float maxSpeed = 20;
@@ -53,6 +54,18 @@ public class PlayerMovement : MonoBehaviour
         // Subscribe to see if mario has valid JumpOverGoomba conditions
         gameManager.OnMarioValidStompNotifier += setMarioStompingTrue;
 
+        // subscribe to scene manager scene change
+        SceneManager.activeSceneChanged += SetStartingPosition;
+
+    }
+
+    public void SetStartingPosition(Scene current, Scene next)
+    {
+        if (next.name == "World 1-2")
+        {
+            // change the position accordingly in your World-1-2 case
+            this.transform.position = new Vector3(-7.75f, -4.468305f, 0.0f);
+        }
     }
 
     private void setMarioStompingTrue()

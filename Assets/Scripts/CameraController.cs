@@ -22,6 +22,13 @@ public class CameraController : MonoBehaviour
         offset = this.transform.position.x - player.position.x;
         startX = this.transform.position.x;
         endX = endLimit.transform.position.x - viewportHalfWidth;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        // using tag (assuming Mario's tag is "Player")
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        //// referring to the Singleton directly
+        //player = PlayerMovement.instance.gameObject.transform;
     }
 
     // Update is called once per frame

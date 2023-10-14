@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class JumpOverGoomba : MonoBehaviour
+public class JumpOverGoomba : Singleton<JumpOverGoomba>
 {
     public Transform enemyLocation;
     //public TextMeshProUGUI scoreText;
@@ -33,10 +33,6 @@ public class JumpOverGoomba : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
         enemiesHolderAudio = enemyLocation.GetComponent<AudioSource>();
-
-
-
-
     }
 
     // Update is called once per frame
@@ -59,47 +55,53 @@ public class JumpOverGoomba : MonoBehaviour
         if (!onGroundState && countScoreState)
         {
             boxCollider = GetComponent<BoxCollider2D>();
-            for (int i = 0; i < enemyLocation.childCount; i++)
+            if(enemyLocation != null)
             {
-                Transform enemyTransform = enemyLocation.GetChild(i);
-                if (Mathf.Abs(transform.position.x - enemyTransform.position.x) < 1.5f)
+                for (int i = 0; i < enemyLocation.childCount; i++)
                 {
-                    // check if mario is falling and check if marios bounding box lowest y value is above (enemylocation.y - 0.5f)
-                    if (boxCollider == null)
+                    Transform enemyTransform = enemyLocation.GetChild(i);
+                    if (enemyTransform != null)
                     {
-                        Debug.LogError("The GameObject does not have a BoxCollider2D component!");
-                        return;
+                        if (Mathf.Abs(transform.position.x - enemyTransform.position.x) < 1.5f)
+                        {
+                            // check if mario is falling and check if marios bounding box lowest y value is above (enemylocation.y - 0.5f)
+                            if (boxCollider == null)
+                            {
+                                Debug.LogError("The GameObject does not have a BoxCollider2D component!");
+                                return;
+                            }
+
+                            float boxColliderBottomY = transform.position.y + boxCollider.offset.y - boxCollider.size.y / 2;
+                            BoxCollider2D enemyBoxCollider = enemyTransform.GetComponent<BoxCollider2D>();
+                            float enemyTopY = enemyTransform.position.y + enemyBoxCollider.offset.y + enemyBoxCollider.size.y / 2;
+
+                            //enemyTransformFromVector = new Vector3(enemyTransform.position.x, (enemyTransform.position.y + enemyBoxCollider.offset.y + enemyBoxCollider.size.y - 0.5f), enemyTransform.position.z);
+                            //enemyTransformToVector = new Vector3(enemyTransform.position.x, (enemyTransform.position.y + enemyBoxCollider.offset.y + enemyBoxCollider.size.y + 5f), enemyTransform.position.z);
+
+
+                            if (Mathf.Abs(boxColliderBottomY - enemyTopY) < 0.5f)
+                            {
+                                Animator enemyAnimator = enemyTransform.GetComponent<Animator>();
+                                countScoreState = false;
+
+                                //USE ANIMATION + EVENT IN ANIMATION TO GIVE SCORE
+                                // play Goomba Death animation
+                                enemyTransform.GetComponent<EnemyMovement>().StopGoomba();
+                                enemyAnimator.SetTrigger("enemyIsDead");
+                                gameManager.IncreaseScore(1);
+
+                                enemiesHolderAudio.PlayOneShot(enemiesHolderAudio.clip);
+                                gameManager.ValidMarioStompChange();
+                                return;
+                            }
+
+                        }
                     }
-
-                    float boxColliderBottomY = transform.position.y + boxCollider.offset.y - boxCollider.size.y / 2;
-                    BoxCollider2D enemyBoxCollider = enemyTransform.GetComponent<BoxCollider2D>();
-                    float enemyTopY = enemyTransform.position.y + enemyBoxCollider.offset.y + enemyBoxCollider.size.y / 2;
-
-                    //enemyTransformFromVector = new Vector3(enemyTransform.position.x, (enemyTransform.position.y + enemyBoxCollider.offset.y + enemyBoxCollider.size.y - 0.5f), enemyTransform.position.z);
-                    //enemyTransformToVector = new Vector3(enemyTransform.position.x, (enemyTransform.position.y + enemyBoxCollider.offset.y + enemyBoxCollider.size.y + 5f), enemyTransform.position.z);
-
-
-                    if (Mathf.Abs(boxColliderBottomY - enemyTopY) < 0.5f)
-                    {
-                        Animator enemyAnimator = enemyTransform.GetComponent<Animator>();
-                        countScoreState = false;
-
-                        //USE ANIMATION + EVENT IN ANIMATION TO GIVE SCORE
-                        // play Goomba Death animation
-                        enemyTransform.GetComponent<EnemyMovement>().StopGoomba();
-                        enemyAnimator.SetTrigger("enemyIsDead");
-                        gameManager.IncreaseScore(1);
-
-                        enemiesHolderAudio.PlayOneShot(enemiesHolderAudio.clip);
-                        gameManager.ValidMarioStompChange();
-                        return;
-                    }
-
                 }
-            }
 
-            //enemyTransformFromVector = new Vector3();
-            //enemyTransformToVector = new Vector3();
+                //enemyTransformFromVector = new Vector3();
+                //enemyTransformToVector = new Vector3();
+            }
 
         }
     }
