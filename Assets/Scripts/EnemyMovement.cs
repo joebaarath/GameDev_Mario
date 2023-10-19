@@ -16,6 +16,10 @@ public class EnemyMovement : MonoBehaviour
     public Vector3 startPosition = new Vector3(0.0f, 0.0f, 0.0f);
     public bool isEnemyDead  = false;
 
+    void Awake()
+    {
+        GameManager.instance.gameRestart.AddListener(GameRestart);
+    }
 
     void Start()
     {

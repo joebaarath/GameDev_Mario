@@ -50,31 +50,36 @@ public class OneWayBounceBox : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-            if (box_type == 1 && isActiveBox == false)
-            {
-                //Else disable bounce 
-                springJoint.dampingRatio = 0;
-                springJoint.frequency = 0;
-            }
-            else if (springJoint.connectedBody.position.y > player.transform.position.y + threshold)
-            {
-                if (isActiveBox == true)
-                {
-                    // Enable Bounce
-                    springJoint.dampingRatio = 0.3f;
-                    springJoint.frequency = 10;
+        if (!col.gameObject.CompareTag("Player")) 
+        {
+            return;
+        }
 
-                    if (box_type == 1)
-                    {
-                        qboxAnimator.SetTrigger("qbox_used");
-                        StartCoroutine(GradualDisableBounce());
-                    }
-                    if (box_type == 1 || box_type == 2)
-                    {
-                        coinAnimator.SetTrigger("coin_bounce_trigger");
-                        PlayCoinSound();
-                    }
+        if (box_type == 1 && isActiveBox == false)
+        {
+            //Else disable bounce 
+            springJoint.dampingRatio = 0;
+            springJoint.frequency = 0;
+        }
+        else if (springJoint.connectedBody.position.y > player.transform.position.y + threshold)
+        {
+            if (isActiveBox == true)
+            {
+                // Enable Bounce
+                springJoint.dampingRatio = 0.3f;
+                springJoint.frequency = 10;
+
+                if (box_type == 1)
+                {
+                    qboxAnimator.SetTrigger("qbox_used");
+                    StartCoroutine(GradualDisableBounce());
                 }
+                if (box_type == 1 || box_type == 2)
+                {
+                    coinAnimator.SetTrigger("coin_bounce_trigger");
+                    PlayCoinSound();
+                }
+            }
                 
 
                 // reset animation
@@ -99,18 +104,28 @@ public class OneWayBounceBox : MonoBehaviour
 
 
         isActiveBox = true;
+        if (springJoint != null)
+        {
+            // Reset the spring joint
+            springJoint.dampingRatio = 0.3f;
+            springJoint.frequency = 10;
+        }
 
-        // Reset the spring joint
-        springJoint.dampingRatio = 0.3f;
-        springJoint.frequency = 10;
+        if (qboxAnimator != null)
+        {
+            // Reset the animator
+            qboxAnimator.ResetTrigger("qbox_used");
+            // Assuming you have a default animation state in your animator, play it to Instantaneous Reset the animation
+            qboxAnimator.Play("qbox-blinking", -1, 0f);
+        }
 
-        // Reset the animator
-        qboxAnimator.ResetTrigger("qbox_used");
-        coinAnimator.ResetTrigger("coin_bounce_trigger");
 
-        // Assuming you have a default animation state in your animator, play it to Instantaneous Reset the animation
-        qboxAnimator.Play("qbox-blinking", -1, 0f);
-        coinAnimator.Play("coin-idle", -1, 0f);
+        if (coinAnimator != null)
+        {
+            coinAnimator.ResetTrigger("coin_bounce_trigger");
+            coinAnimator.Play("coin-idle", -1, 0f);
+        }
+
 
     }
 

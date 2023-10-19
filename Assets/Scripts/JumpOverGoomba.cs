@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class JumpOverGoomba : Singleton<JumpOverGoomba>
+public class JumpOverGoomba : MonoBehaviour
 {
     public Transform enemyLocation;
     //public TextMeshProUGUI scoreText;
@@ -24,7 +24,6 @@ public class JumpOverGoomba : Singleton<JumpOverGoomba>
 
     //Vector3 enemyTransformFromVector = new Vector3();
     //Vector3 enemyTransformToVector = new Vector3();
-
 
 
     BoxCollider2D boxCollider;

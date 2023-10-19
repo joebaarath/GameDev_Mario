@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : Singleton<PlayerMovement>
+public class PlayerMovement : MonoBehaviour
 {
     public float speed = 10;
     public float maxSpeed = 20;
@@ -35,11 +35,13 @@ public class PlayerMovement : Singleton<PlayerMovement>
     // state
     [System.NonSerialized]
     public bool alive = true;
-
-    public GameManager gameManager;
-
     bool isMarioStomping = false;
 
+    void Awake()
+    {
+        // subscribe to Game Restart event
+        GameManager.instance.gameRestart.AddListener(GameRestart);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -52,10 +54,10 @@ public class PlayerMovement : Singleton<PlayerMovement>
         //ResetGame();
 
         // Subscribe to see if mario has valid JumpOverGoomba conditions
-        gameManager.OnMarioValidStompNotifier += setMarioStompingTrue;
+        GameManager.instance.OnMarioValidStompNotifier += setMarioStompingTrue;
 
-        // subscribe to scene manager scene change
-        SceneManager.activeSceneChanged += SetStartingPosition;
+        //// subscribe to scene manager scene change
+        //SceneManager.activeSceneChanged += SetStartingPosition;
 
     }
 
@@ -191,7 +193,7 @@ public class PlayerMovement : Singleton<PlayerMovement>
     IEnumerator WaitAndDie()
     {
         yield return new WaitForSeconds(1f);
-        gameManager.GameOver();
+        GameManager.instance.GameOver();
 
 
     }
@@ -278,7 +280,7 @@ public class PlayerMovement : Singleton<PlayerMovement>
         }
 
         // reset score
-        gameManager.GameOver();
+        GameManager.instance.GameOver();
 
         // reset animation
         marioAnimator.SetTrigger("gameRestart");

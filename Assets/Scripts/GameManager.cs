@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -23,9 +24,18 @@ public class GameManager : Singleton<GameManager>
         gameStart.Invoke();
         Time.timeScale = 1.0f;
 
+        // subscribe to scene manager scene change
+        SceneManager.activeSceneChanged += SceneSetup;
+
         // Get all instances of OneWayBounceBox in the scene
         allBoxes = FindObjectsOfType<OneWayBounceBox>();
 
+    }
+
+    public void SceneSetup(Scene current, Scene next)
+    {
+        gameStart.Invoke();
+        SetScore(score);
     }
 
     // Update is called once per frame
@@ -43,11 +53,14 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1.0f;
 
         // Reset all qboxes and coin positions
-        foreach (var box in allBoxes)
+        if(allBoxes != null)
         {
-            box.ResetBox();
-        }
+            foreach (var box in allBoxes)
+            {
+                box.ResetBox();
+            }
 
+        }
 
     }
 
