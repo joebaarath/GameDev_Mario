@@ -35,7 +35,7 @@ public class MagicMushroomPowerup : BasePowerup
             if (spawned)
             {
                 goRight = !goRight;
-                rigidBody.AddForce(Vector2.right * 2 * (goRight ? 1 : -1), ForceMode2D.Impulse);
+                rigidBody.AddForce(Vector2.right * 3 * (goRight ? 1 : -1), ForceMode2D.Impulse);
 
             }
         }

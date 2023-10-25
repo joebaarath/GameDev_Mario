@@ -27,6 +27,8 @@ public class GameManager : Singleton<GameManager>
     {
         gameStart.Invoke();
         Time.timeScale = 1.0f;
+        gameScore.SetValue(0);
+        SetScore(gameScore.Value);
 
         // subscribe to scene manager scene change
         SceneManager.activeSceneChanged += SceneSetup;
