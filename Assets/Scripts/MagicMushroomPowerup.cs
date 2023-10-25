@@ -29,13 +29,13 @@ public class MagicMushroomPowerup : BasePowerup
             DestroyPowerup();
 
         }
-        else if (col.gameObject.layer == 7) // else if hitting Pipe, flip travel direction
+        else if (col.gameObject.layer == 7 || col.gameObject.layer == 11) // else if hitting Pipe, flip travel direction
         {
             Debug.Log("Rigidbody velocity: " + rigidBody.velocity);
             if (spawned)
             {
                 goRight = !goRight;
-                rigidBody.AddForce(Vector2.right * 3 * (goRight ? 1 : -1), ForceMode2D.Impulse);
+                rigidBody.AddForce(Vector2.right * 2 * (goRight ? 1 : -1), ForceMode2D.Impulse);
 
             }
         }

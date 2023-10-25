@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+
+    public IntVariable gameScore;
+
+
     // events
     public UnityEvent gameStart;
     public UnityEvent gameRestart;
@@ -35,7 +39,7 @@ public class GameManager : Singleton<GameManager>
     public void SceneSetup(Scene current, Scene next)
     {
         gameStart.Invoke();
-        SetScore(score);
+        SetScore(gameScore.Value);
     }
 
     // Update is called once per frame
@@ -47,8 +51,9 @@ public class GameManager : Singleton<GameManager>
     public void GameRestart()
     {
         // reset score
-        score = 0;
-        SetScore(score);
+        //score = 0;
+        gameScore.Value = 0;
+        SetScore(gameScore.Value);
         gameRestart.Invoke();
         Time.timeScale = 1.0f;
 
@@ -66,8 +71,10 @@ public class GameManager : Singleton<GameManager>
 
     public void IncreaseScore(int increment)
     {
-        score += increment;
-        SetScore(score);
+        // increase score by 1
+        gameScore.ApplyChange(1);
+        //score += increment;
+        SetScore(gameScore.Value);
         // use delegates to access playmermovements
     }
 
@@ -81,7 +88,9 @@ public class GameManager : Singleton<GameManager>
 
     public void SetScore(int score)
     {
-        scoreChange.Invoke(score);
+        //scoreChange.Invoke(score);
+        // invoke score change event with current score to update HUD
+        scoreChange.Invoke(gameScore.Value);
     }
 
 

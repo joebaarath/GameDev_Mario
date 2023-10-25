@@ -69,7 +69,7 @@ public class OneWayBounceBox : MonoBehaviour
                 springJoint.dampingRatio = 0.3f;
                 springJoint.frequency = 10;
 
-                if (box_type == 1)
+                if (box_type == 1 || box_type == 4)
                 {
                     qboxAnimator.SetTrigger("qbox_used");
                     StartCoroutine(GradualDisableBounce());
@@ -77,8 +77,12 @@ public class OneWayBounceBox : MonoBehaviour
                 if (box_type == 1 || box_type == 2)
                 {
                     coinAnimator.SetTrigger("coin_bounce_trigger");
+                }
+                if (box_type == 1 || box_type == 2 || box_type == 4)
+                {
                     PlayCoinSound();
                 }
+
             }
                 
 

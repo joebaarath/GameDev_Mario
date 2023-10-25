@@ -5,12 +5,20 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IPowerupApplicable
 {
-    public float speed = 10;
-    public float maxSpeed = 20;
+
+    public GameConstants gameConstants;
+    float deathImpulse;
+    float upSpeed;
+    float maxSpeed;
+    float speed;
+
+
+    //public float speed = 10;
+    //public float maxSpeed = 20;
     private Rigidbody2D marioBody;
-    public float upSpeed = 10;
+    //public float upSpeed = 10;
     private bool onGroundState = false;
     private SpriteRenderer marioSprite;
     private bool faceRightState = true;
@@ -26,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource marioAudio;
 
     public AudioSource marioDeathAudio;
-    public float deathImpulse = 15;
+    //public float deathImpulse = 15;
     private float previousMoveHorizontal = 0;
 
     private bool moving = false;
@@ -46,11 +54,19 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        marioSprite = GetComponent<SpriteRenderer>();
+        // Set constants
+        speed = gameConstants.speed;
+        maxSpeed = gameConstants.maxSpeed;
+        deathImpulse = gameConstants.deathImpulse;
+        upSpeed = gameConstants.upSpeed;
+
 
         // Set to be 30 FPS
         Application.targetFrameRate = 30;
         marioBody = GetComponent<Rigidbody2D>();
+        marioSprite = GetComponent<SpriteRenderer>();
+        marioAnimator.SetBool("onGround", onGroundState);
+
         //ResetGame();
 
         // Subscribe to see if mario has valid JumpOverGoomba conditions
@@ -318,5 +334,8 @@ public class PlayerMovement : MonoBehaviour
         marioBody.AddForce(Vector2.up * deathImpulse, ForceMode2D.Impulse);
     }
 
-
+    public void RequestPowerupEffect(IPowerup i)
+    {
+        throw new System.NotImplementedException();
+    }
 }

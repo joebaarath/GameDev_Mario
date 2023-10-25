@@ -6,7 +6,7 @@ public abstract class BasePowerup : MonoBehaviour, IPowerup
     public PowerupType type;
     public bool spawned = false;
     protected bool consumed = false;
-    protected bool goRight = true;
+    protected bool goRight = false;
     protected Rigidbody2D rigidBody;
 
     // base methods

@@ -20,6 +20,9 @@ public class HUDManager : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject gameOverScoreText;
 
+    public GameObject highscoreText;
+    public IntVariable gameScore;
+
     void Awake()
     {
         // subscribe to events
@@ -63,5 +66,10 @@ public class HUDManager : MonoBehaviour
         inGamePanel.SetActive(false);
         //scoreText.transform.localPosition = scoreTextPosition[1];
         //gameOverRestartButton.localPosition = restartButtonPosition[1];
+
+        // set highscore
+        highscoreText.GetComponent<TextMeshProUGUI>().text = "TOP- " + gameScore.previousHighestValue.ToString("D6");
+        // show
+        highscoreText.SetActive(true);
     }
 }
