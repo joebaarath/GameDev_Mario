@@ -5,6 +5,7 @@ public interface IPowerup
     void DestroyPowerup();
     void SpawnPowerup();
     void ApplyPowerup(MonoBehaviour i);
+    void ResetPowerup();
 
     PowerupType powerupType
     {

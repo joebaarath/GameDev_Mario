@@ -19,6 +19,7 @@ public class GameManager : Singleton<GameManager>
 
     private int score = 0;
     private OneWayBounceBox[] allBoxes;  // Array to store all OneWayBounceBox instances
+    private BasePowerup[] powerups;  // Array to store all OneWayBounceBox instances
 
     public delegate void MarioStompDelegate();
     public MarioStompDelegate OnMarioValidStompNotifier;  // Any external class can invoke this.
@@ -35,6 +36,7 @@ public class GameManager : Singleton<GameManager>
 
         // Get all instances of OneWayBounceBox in the scene
         allBoxes = FindObjectsOfType<OneWayBounceBox>();
+        powerups = FindObjectsOfType<BasePowerup>();
 
     }
 
@@ -66,7 +68,15 @@ public class GameManager : Singleton<GameManager>
             {
                 box.ResetBox();
             }
+        }
 
+        // reset powerups 
+        if (powerups != null)
+        {
+            foreach (var powerup in powerups)
+            {
+                powerup.ResetPowerup();
+            }
         }
 
     }
@@ -100,5 +110,10 @@ public class GameManager : Singleton<GameManager>
     {
         Time.timeScale = 0.0f;
         gameOver.Invoke();
+    }
+
+    public void LoadMenuScene()
+    {
+        SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Single);
     }
 }

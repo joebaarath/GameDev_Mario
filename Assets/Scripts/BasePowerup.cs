@@ -9,6 +9,10 @@ public abstract class BasePowerup : MonoBehaviour, IPowerup
     protected bool goRight = false;
     protected Rigidbody2D rigidBody;
 
+    protected virtual void Awake()
+    {
+    }
+
     // base methods
     protected virtual void Start()
     {
@@ -35,10 +39,14 @@ public abstract class BasePowerup : MonoBehaviour, IPowerup
 
     public void DestroyPowerup()
     {
-        Destroy(this.gameObject);
+
+        this.gameObject.SetActive(false);
+        //Destroy(this.gameObject);
     }
 
     // 2. abstract methods, must be implemented by derived classes
+
+    public abstract void ResetPowerup();
     public abstract void SpawnPowerup();
     public abstract void ApplyPowerup(MonoBehaviour i);
 }
