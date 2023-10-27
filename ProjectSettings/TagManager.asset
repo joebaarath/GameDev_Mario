@@ -10,6 +10,7 @@ TagManager:
   - Enemies
   - Manager
   - EnemiesHolder
+  - PausePanel
   layers:
   - Default
   - TransparentFX
